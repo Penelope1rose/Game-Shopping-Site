@@ -26,7 +26,7 @@ try {
 		String dbusername=rs.getString("userID");
 		String dbpassword=rs.getString("pass");
 		if (inputuser.equals(dbusername)&&inputpassword.equals(dbpassword)) {
-			response.sendRedirect("admin.html");
+			response.sendRedirect("mainPage.jsp");
 		}
 		else {
 			response.sendRedirect("login.html");

@@ -11,10 +11,12 @@
 <body>
 <% 
 	
+	
 	Connection conn = DBconnect.getConnection();
 
-	String sql = "SELECT * from game";
+	String sql = "SELECT * from game ";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
+
 	ResultSet rs = pstmt.executeQuery();
 	
 	out.println("<table>");
