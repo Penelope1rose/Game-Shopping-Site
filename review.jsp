@@ -4,7 +4,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <meta charset="utf-8">
@@ -13,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>testing</title>
+<title>SP Gamestore</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,9 +28,7 @@
     <![endif]-->
 
 </head>
-
 <body>
-
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -54,19 +51,19 @@
 						class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
 				<li id="options"><a href="#">GAMES BY GENRE</a>
 					<ul class="subnav">
-						<li><a href="searchGame.jsp?search=Action">Action</a></li>
-						<li><a href="searchGame.jsp?search=Adventure">Adventure</a></li>
-						<li><a href="searchGame.jsp?search=RPG">RPG</a></li>
-						<li><a href="searchGame.jsp?search=Free-to-Play">Free-to-Play</a></li>
-						<li><a href="searchGame.jsp?search=Indie">Indie</a></li>
-						<li><a href="searchGame.jsp?search=Strategy">Strategy</a></li>
-						<li><a href="searchGame.jsp?search=Shooter">Shooter</a></li>
+						<li><a href="searchGame.jsp?value=Action">Action</a></li>
+						<li><a href="searchGame.jsp?value=Adventure">Adventure</a></li>
+						<li><a href="searchGame.jsp?value=RPG">RPG</a></li>
+						<li><a href="searchGame.jsp?value=Free-to-Play">Free-to-Play</a></li>
+						<li><a href="searchGame.jsp?value=Indie">Indie</a></li>
+						<li><a href="searchGame.jsp?value=Strategy">Strategy</a></li>
+						<li><a href="searchGame.jsp?value=Shooter">Shooter</a></li>
 					</ul></li>
 				<li>
 					<form class="form-inline" role="form" action="searchGame.jsp">
 						<div class="form-group has-success has-feedback">
 							<label class="control-label" for="inputSuccess4"></label> <input
-								type="text" class="form-control" id="style" name="value"
+								type="text" class="form-control" id="style" name="search"
 								placeholder="Search"> <span
 								class="glyphicon glyphicon-search form-control-feedback"
 								id="style2"></span>
@@ -90,93 +87,28 @@
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Popular</h1>
+				<h1 class="page-header">Write your review</h1>
 			</div>
 		</div>
 		<!-- /.row -->
 
-		<%
-			Connection conn = DBconnect.getConnection();
 
-			PreparedStatement pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
-									
-			ResultSet rs = pstmt.executeQuery();
-		%>
+		<form action="processReview.jsp?hiddenID=" method="post">
+			<ul id="fieldList">
+				<li><input name="gid" type="text" placeholder="gid"
+					id="style" /></li>
+				<li><input name="name" type="text" placeholder="Name"
+					id="style" /></li>
+				<li><input name="rate" type="text" placeholder="Rating" id="style" /></li>
+				<li><input name="date" type="text" placeholder="Date"
+					id="style"></li>
+				<li><input name="comment" type="text" placeholder="Comments"
+					id="style" /></li>
+			</ul>
 
-		<!-- Projects Row -->
+			<input type="submit">
+		</form>
 
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-				
-		%>
-
-		<div class="row">
-			<div class="col-md-3 portfolio-item">
-				<a href="indGame.jsp?value=<%=id%>"> <img class="img-responsive"
-					src=<%=img%> alt="">
-					<h3>
-						<a><%=tt%></a>
-						
-						<p class="pull-right" id="font2">$<%=px%></p>
-
-					</a>
-				</h3>
-
-			</div>
-
-			<%
-				}
-			%>
-		
-		<!-- Projects Row -->
-		
-			<div class="col-lg-12">
-				<h1 class="page-header">Recent</h1>
-			</div>
-		
-		<%
-			pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
-		
-			rs = pstmt.executeQuery();
-		%>
-
-		<!-- Projects Row -->
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-		%>
-
-		<div class="row">
-			<div class="col-md-3 portfolio-item">
-				<a href="indGame.jsp?value=<%=id %>"><img class="img-responsive"
-					src="<%=img %>" alt="" />
-					<h3>
-						<a><%=tt %></a>
-					</h3>
-					<p class="pull-right" id="font2">$<%=px %></p> </a>
-			</div>
-		<% } %>
-		
-		<!-- /.row -->
-
-		<hr id="line">
-		<!-- Footer -->
-		<footer>
-		<div class="row">
-			<div class="col-lg-12">
-				<p>Copyright &copy; Sammyu Productions 2016</p>
-			</div>
-		</div>
-		</footer>
 
 	</div>
 	<!-- /.container -->

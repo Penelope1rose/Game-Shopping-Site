@@ -54,13 +54,13 @@
 						class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
 				<li id="options"><a href="#">GAMES BY GENRE</a>
 					<ul class="subnav">
-						<li><a href="searchGame.jsp?search=Action">Action</a></li>
-						<li><a href="searchGame.jsp?search=Adventure">Adventure</a></li>
-						<li><a href="searchGame.jsp?search=RPG">RPG</a></li>
-						<li><a href="searchGame.jsp?search=Free-to-Play">Free-to-Play</a></li>
-						<li><a href="searchGame.jsp?search=Indie">Indie</a></li>
-						<li><a href="searchGame.jsp?search=Strategy">Strategy</a></li>
-						<li><a href="searchGame.jsp?search=Shooter">Shooter</a></li>
+						<li><a href="searchGame.jsp?value=Action">Action</a></li>
+						<li><a href="searchGame.jsp?value=Adventure">Adventure</a></li>
+						<li><a href="searchGame.jsp?value=RPG">RPG</a></li>
+						<li><a href="searchGame.jsp?value=Free-to-Play">Free-to-Play</a></li>
+						<li><a href="searchGame.jsp?value=Indie">Indie</a></li>
+						<li><a href="searchGame.jsp?value=Strategy">Strategy</a></li>
+						<li><a href="searchGame.jsp?value=Shooter">Shooter</a></li>
 					</ul></li>
 				<li>
 					<form class="form-inline" role="form" action="searchGame.jsp">
@@ -76,7 +76,7 @@
 			</ul>
 
 			<div class="topcorner">
-				<a href="login2.html">Login</a>
+				<a href="login.html">Login</a>
 			</div>
 		</div>
 
@@ -90,83 +90,51 @@
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Popular</h1>
+				<h1 class="page-header">Search Results</h1>
 			</div>
 		</div>
 		<!-- /.row -->
 
-		<%
-			Connection conn = DBconnect.getConnection();
-
-			PreparedStatement pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
-									
-			ResultSet rs = pstmt.executeQuery();
-		%>
+		
 
 		<!-- Projects Row -->
 
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-				
-		%>
+		
 
 		<div class="row">
-			<div class="col-md-3 portfolio-item">
-				<a href="indGame.jsp?value=<%=id%>"> <img class="img-responsive"
-					src=<%=img%> alt="">
-					<h3>
-						<a><%=tt%></a>
-						
-						<p class="pull-right" id="font2">$<%=px%></p>
-
-					</a>
-				</h3>
-
-			</div>
-
-			<%
-				}
-			%>
-		
-		<!-- Projects Row -->
-		
 			<div class="col-lg-12">
-				<h1 class="page-header">Recent</h1>
-			</div>
-		
-		<%
-			pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
-		
-			rs = pstmt.executeQuery();
-		%>
+				<%
+String inputSearch=request.getParameter("value");
 
-		<!-- Projects Row -->
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-		%>
-
-		<div class="row">
-			<div class="col-md-3 portfolio-item">
-				<a href="indGame.jsp?value=<%=id %>"><img class="img-responsive"
-					src="<%=img %>" alt="" />
-					<h3>
-						<a><%=tt %></a>
-					</h3>
-					<p class="pull-right" id="font2">$<%=px %></p> </a>
-			</div>
+    Connection conn =   DBconnect.getConnection();
+    PreparedStatement pstmt = conn.prepareStatement("select distinct * from gamestore.game,gamestore.genre,gamestore.game_genre where gamestore.game.game_id=gamestore.game_genre.gameid and gamestore.game_genre.genreid=gamestore.genre.genre_id and title like ? or genre_name like ?");
+	
+    pstmt.setString(1,inputSearch);
+    pstmt.setString(2,inputSearch);
+	ResultSet rs=pstmt.executeQuery();%>
+	<table width=100%>
+	<tr><td>Title</td><td>ReleaseDate</td><td>Summary</td><td>Price</td><td>thumbnail</td></tr>
+	<% 
+	while(rs.next()){
+		String title=rs.getString("title");
+		String releasedate=rs.getString("release_date");
+		String summary=rs.getString("summary");
+		double price=rs.getInt("px");
+		String img=rs.getString("image_location");
+		%><tr><td><%=title %></td>
+		<td><%=releasedate%>     </td>	
+		<td><%=summary %></td>
+		<td><%=price %></td>
+		<td><img class="img-responsive"
+					src="<%=img %>" alt="" style="width:300px;height:200px;" /></td>
 		<% } %>
+		</table>
+
+			</div>
+
+			
 		
-		<!-- /.row -->
+		
 
 		<hr id="line">
 		<!-- Footer -->

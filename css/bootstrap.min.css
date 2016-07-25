@@ -10,6 +10,107 @@ html {
 	-ms-text-size-adjust: 100%
 }
 
+/**** DROPDOWN MENU *****/
+#options a{
+    border-left: 0 none;
+}
+#options>a {
+    background-position: 85% center;
+    background-repeat: no-repeat;
+    padding-right: 42px;
+}
+.subnav {
+    visibility: hidden;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    height: auto;
+    opacity: 0;
+    transition: all 0.1s;
+    background: #232323;
+}
+.subnav li {
+    float: center;
+    list-style-type: none;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 15px;
+}
+.subnav li a {
+    border-bottom: 1px solid #2e2e2e;
+    
+}
+#options:hover .subnav {
+    visibility: visible;
+    top: 100%;
+    opacity: 1;
+    text-decoration: none
+}
+/* open link */
+a:link {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
+
+/****END OF DROPDOWN MENU ****/
+.caption-full{
+	padding: 10px;
+}
+
+#move {
+	margin-top: 50px;
+}
+
+#text2{
+	font-weight: bold;
+	color: #fff
+	background-color: #4CAF50;
+	float: right;
+	
+}
+
+#line{
+	clear: both
+}
+
+#text{
+	font-weight: bold;
+	color: #33cc33;
+	float: right;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+#font2{
+	font-weight: bold;
+	color: #33cc33;
+	font-size: 18px;
+}
+
+#style {
+	border-radius: 10px;
+	margin-top: 13px; 
+	margin-left: 30px;
+	padding-left: 10px;
+    width: 350px;
+    height: 35px;
+}
+
+#style_text:focus {
+    background: #0066ff;
+}
+
+#style2 {
+	margin-top: 13px; 
+	margin-left: 30px;
+}
+
 .topcorner {
 	float: right;
 	right: 100px;
@@ -17,7 +118,6 @@ html {
 	padding: 15px 15px;
 	font-size: 18px;
 	line-height: 30px;
-	color: 
 }
 
 body {
@@ -1876,6 +1976,9 @@ pre code {
 	padding-right: 15px;
 	padding-left: 15px
 }
+
+
+
 
 .col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9
 	{
@@ -4565,7 +4668,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 	line-height: 20px
 }
 
-.navbar-brand:focus,.navbar-brand, .topcorner:hover {
+.navbar-brand:focus,.navbar-brand:hover {
 	text-decoration: none
 }
 
@@ -4621,8 +4724,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 .navbar-nav>li>a {
 	padding-top: 10px;
 	padding-bottom: 10px;
-	line-height: 30px;
-	font-size: 20px;
+	line-height: 30px
 }
 
 @media ( max-width :767px) {
