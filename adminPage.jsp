@@ -105,12 +105,22 @@
 			<div class="col-lg-12">
 				<a href="addGame.jsp">Add a game</a><br>
 				<a href="updateGame.jsp">Update game</a><br>
-				<a href="deleteGame.jsp">Delete a game</a>
+				<a href="deleteGame.jsp">Delete a game</a><br>
 
 			</div>
 
-			
-		
+			Sammy, when you see this, pls do read it and delete once you aare done. I never touch the admin tools at all. So if there are any bugs here,
+			I need you to solve it. I suggest that when we update the games, dont ask for game id. show them the page with all the games as options
+			so that the admin a=can just click on a game and id of game will be passed over and update the game. Same for deletion 
+			<br><br>
+			I thinkk need to do the genre thing as well since we missed that out.
+			<br><br>
+			sammy, userid fr admin changed
+			<br>
+			id: admin <br>
+			pass: root
+			<br><br>
+			we need a logout button too. thks
 		
 
 		<hr id="line">

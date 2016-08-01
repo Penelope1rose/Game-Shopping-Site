@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.sql.*, db.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <meta charset="utf-8">
@@ -13,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>testing</title>
+<title>SP Gamestore</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,11 +26,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
-
 <body>
-
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -43,7 +39,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<p class="navbar-brand">SP Gamestore</p>
+			<p class="navbar-brand">SP GAMESTORE</p>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,16 +47,16 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="mainPage.jsp"><span
-						class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
-				<li id="options"><a href="#">GAMES BY GENRE</a>
+						class="glyphicon glyphicon-home"></span> HOME</a></li>
+				<li id="options"><a href="#" onclick="">GAMES BY GENRE</a>
 					<ul class="subnav">
-						<li><a href="searchGame.jsp?value=Action">Action</a></li>
-						<li><a href="searchGame.jsp?value=Adventure">Adventure</a></li>
-						<li><a href="searchGame.jsp?value=RPG">RPG</a></li>
-						<li><a href="searchGame.jsp?value=Free-to-Play">Free-to-Play</a></li>
-						<li><a href="searchGame.jsp?value=Indie">Indie</a></li>
-						<li><a href="searchGame.jsp?value=Strategy">Strategy</a></li>
-						<li><a href="searchGame.jsp?value=Shooter">Shooter</a></li>
+						<li><a href="searchGame.jsp?search=Action">Action</a></li>
+						<li><a href="searchGame.jsp?search=Adventure">Adventure</a></li>
+						<li><a href="searchGame.jsp?search=RPG">RPG</a></li>
+						<li><a href="searchGame.jsp?search=Free-to-Play">Free-to-Play</a></li>
+						<li><a href="searchGame.jsp?search=Indie">Indie</a></li>
+						<li><a href="searchGame.jsp?search=Strategy">Strategy</a></li>
+						<li><a href="searchGame.jsp?search=Shooter">Shooter</a></li>
 					</ul></li>
 				<li>
 					<form class="form-inline" role="form" action="searchGame.jsp">
@@ -73,11 +69,16 @@
 						</div>
 					</form>
 				</li>
+				<li>
+					<div class="topcorner">
+						<a href="shoppingCart.jsp"><span
+							class="glyphicon glyphicon-shopping-cart"></span>Cart</a> <a
+							href="login2.html">Login</a>
+					</div>
+				</li>
 			</ul>
 
-			<div class="topcorner">
-				<a href="login.html">Login</a>
-			</div>
+
 		</div>
 
 		<!-- /.navbar-collapse -->
@@ -90,74 +91,45 @@
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Search Results</h1>
+				<h1 class="page-header">Your shopping Cart!</h1>
 			</div>
+
+			<!-- /.row -->
+			<table width=100%>
+				<tr>
+					<td>thumbnail</td>
+					<td>Title</td>
+					<td>Price</td>
+				</tr>
+			</table>
+
+			<div class="text-right">
+				<a class="btn btn-success" href="">Purchase</a>
+			</div>
+
+			<!-- Projects Row -->
+
+
+
+
+
+			<hr id="line">
+			<!-- Footer -->
+			<footer>
+			<div class="row">
+				<div class="col-lg-12">
+					<p>Copyright &copy; Sammyu Productions 2016</p>
+				</div>
+			</div>
+			</footer>
+
 		</div>
-		<!-- /.row -->
+		<!-- /.container -->
 
-		
+		<!-- jQuery -->
+		<script src="js/jquery.js"></script>
 
-		<!-- Projects Row -->
-
-		
-
-		<div class="row">
-			<div class="col-lg-12">
-				<%
-String inputSearch=request.getParameter("value");
-
-    Connection conn =   DBconnect.getConnection();
-    PreparedStatement pstmt = conn.prepareStatement("select distinct game.* from game, genre, game_genre where game_ID = gameID and genreID = genre_ID and title like ? or genre_name like ?");
-	
-    pstmt.setString(1,"%" + inputSearch + "%");
-    pstmt.setString(2,"%" + inputSearch + "%");
-	ResultSet rs=pstmt.executeQuery();
-	
-%>
-
-	<table width=100%>
-	<tr><td>Title</td><td>ReleaseDate</td><td>Summary</td><td>Price</td><td>thumbnail</td></tr>
-	
-	<% 
-	while(rs.next()){
-		String title=rs.getString("title");
-		String releasedate=rs.getString("release_date");
-		String summary=rs.getString("summary");
-		double price=rs.getInt("px");
-		String img=rs.getString("image_location");
-		%><tr><td><%=title %></td>
-		<td><%=releasedate%>     </td>	
-		<td><%=summary %></td>
-		<td><%=price %></td>
-		<td><img class="img-responsive"
-					src="<%=img %>" alt="" style="width:300px;height:200px;" /></td>
-		<% } %>
-		</table>
-
-			</div>
-
-			
-		
-		
-
-		<hr id="line">
-		<!-- Footer -->
-		<footer>
-		<div class="row">
-			<div class="col-lg-12">
-				<p>Copyright &copy; Sammyu Productions 2016</p>
-			</div>
-		</div>
-		</footer>
-
-	</div>
-	<!-- /.container -->
-
-	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
-
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

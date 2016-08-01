@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>testing</title>
+<title>SP Gamestore</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -76,7 +76,12 @@
 			</ul>
 
 			<div class="topcorner">
-				<a href="login2.html">Login</a>
+				<a href="login2.html"> <%
+ 	if (session.getAttribute("login-status") == null){
+ %> Login <%
+ 	} else { rs.getString("userID"); }
+	}
+ %></a>
 			</div>
 		</div>
 
@@ -92,80 +97,80 @@
 			<div class="col-lg-12">
 				<h1 class="page-header">Popular</h1>
 			</div>
-		</div>
-		<!-- /.row -->
 
-		<%
-			Connection conn = DBconnect.getConnection();
+			<!-- /.row -->
 
-			PreparedStatement pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
-									
-			ResultSet rs = pstmt.executeQuery();
-		%>
+			<%
+				Connection conn = DBconnect.getConnection();
+			
+				PreparedStatement pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
+										
+				ResultSet rs = pstmt.executeQuery();
+			%>
 
-		<!-- Projects Row -->
+			<!-- Projects Row -->
 
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-				
-		%>
+			<%
+				while (rs.next()) {
+					String id = rs.getString("Game_ID");
+					String tt = rs.getString("Title");
+					double px = rs.getDouble("Px");
+					String img = rs.getString("Image_location");
+					String gt = rs.getString("game_type");
+			%>
 
-		<div class="row">
+
 			<div class="col-md-3 portfolio-item">
 				<a href="indGame.jsp?value=<%=id%>"> <img class="img-responsive"
 					src=<%=img%> alt="">
-					<h3>
-						<a><%=tt%></a>
-						
-						<p class="pull-right" id="font2">$<%=px%></p>
+					<h4 class="flow">
+						<a aria-hidden="false" href="indGame.jsp?value=<%=id%>"><%=tt%></a>
 
-					</a>
-				</h3>
-
+						<p class="pull-right" id="font2">
+							$<%=px%></p></a>
+				</h4>
 			</div>
 
 			<%
 				}
 			%>
-		
+		</div>
 		<!-- Projects Row -->
-		
+		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Recent</h1>
 			</div>
-		
-		<%
-			pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
-		
-			rs = pstmt.executeQuery();
-		%>
 
-		<!-- Projects Row -->
-		<%
-			while (rs.next()) {
-				String id = rs.getString("Game_ID");
-				String tt = rs.getString("Title");
-				double px = rs.getDouble("Px");
-				String img = rs.getString("Image_location");
-				String gt = rs.getString("game_type");
-		%>
+			<%
+				pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
+					
+				rs = pstmt.executeQuery();
+			%>
 
-		<div class="row">
+			<!-- Projects Row -->
+			<%
+				while (rs.next()) {
+					String id = rs.getString("Game_ID");
+					String tt = rs.getString("Title");
+					double px = rs.getDouble("Px");
+					String img = rs.getString("Image_location");
+					String gt = rs.getString("game_type");
+			%>
+
+
 			<div class="col-md-3 portfolio-item">
-				<a href="indGame.jsp?value=<%=id %>"><img class="img-responsive"
-					src="<%=img %>" alt="" />
-					<h3>
-						<a><%=tt %></a>
-					</h3>
-					<p class="pull-right" id="font2">$<%=px %></p> </a>
+				<a href="indGame.jsp?value=<%=id%>"><img class="img-responsive"
+					src="<%=img%>" alt="" />
+					<h4>
+						<a href="indGame.jsp?value=<%=id%>" aria-hidden="true"><%=tt%></a>
+					</h4>
+					<p class="pull-right" id="font2">
+						$<%=px%></p> </a>
 			</div>
-		<% } %>
-		
+			<%
+				}
+			%>
+		</div>
 		<!-- /.row -->
 
 		<hr id="line">
