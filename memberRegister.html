@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Member Registration</title>
+</head>
+<body>
+<script>if(isErrorflag()==true){
+	alert(member.getError());
+}
+</script>
+<!-- idk why it says 404 not found :< -->
+<form action="memberRegisterProcess" method=get>
+<font size=5>USER REGISTRATION</font>
+<br>
+First Name: <input type="text" name="firstName" value="" size=15 maxlength=20>
+<br>
+Last Name: <input type="text" name="lastName" value="" size=15 maxlength=20>
+<br>
+Email: <input type="text" name="email" value="" size=25  maxlength=125>
+<br>
+Mailing Address: <input type="text" name="mailaddr" value="" size=12  maxlength=125>
+<br>
+Contact Number: <input type="number" name="contactno" size=8 value=""  maxlength=8>
+<br>
+Password: <input type="password" name="password1" size=10 value="" maxlength=10>
+<br>
+Confirm Your Password: <input type="password" name="password2" size=10 value="" maxlength=10>
+<br>
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
+
+</form>
+</body>
+</html>
