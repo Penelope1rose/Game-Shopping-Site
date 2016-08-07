@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.sql.*, db.*"%>
+<%@ page import="java.sql.*, db.*, Model.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,7 +51,7 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="mainPage.jsp"><span
-						class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
+						class="glyphicon glyphicon-home" ></span> HOME</a></li>
 				<li id="options"><a href="#">GAMES BY GENRE</a>
 					<ul class="subnav">
 						<li><a href="searchGame.jsp?search=Action">Action</a></li>
@@ -73,15 +73,27 @@
 						</div>
 					</form>
 				</li>
+				<li>
+					<div class="topcorner">
+						<a href="shoppingCart.jsp"><span
+							class="glyphicon glyphicon-shopping-cart"></span>Cart</a>
+							
+							<%
+ 								if (session.getAttribute("login-status") == "YES") { %>
+ 							  	<span class="glyphicon glyphicon-chevron-down"></span> 
+ 								<% } else { %>
+ 								 <a href="login2.html">Login 
+ 								<% } %>
+ 						</a>
+					</div>
+				</li>
 			</ul>
 
 			<div class="topcorner">
-				<a href="login2.html"> <%
- 	if (session.getAttribute("login-status") == null){
- %> Login <%
- 	} else { rs.getString("userID"); }
-	}
- %></a>
+				<a href="login2.html"> 
+					
+ 					
+ 				</a>
 			</div>
 		</div>
 
@@ -102,9 +114,10 @@
 
 			<%
 				Connection conn = DBconnect.getConnection();
-			
-				PreparedStatement pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
-										
+
+				PreparedStatement pstmt = conn
+						.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
+
 				ResultSet rs = pstmt.executeQuery();
 			%>
 
@@ -124,7 +137,7 @@
 				<a href="indGame.jsp?value=<%=id%>"> <img class="img-responsive"
 					src=<%=img%> alt="">
 					<h4 class="flow">
-						<a aria-hidden="false" href="indGame.jsp?value=<%=id%>"><%=tt%></a>
+						<a href="indGame.jsp?value=<%=id%>"><%=tt%></a>
 
 						<p class="pull-right" id="font2">
 							$<%=px%></p></a>
@@ -142,8 +155,9 @@
 			</div>
 
 			<%
-				pstmt = conn.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
-					
+				pstmt = conn
+						.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'recent'");
+
 				rs = pstmt.executeQuery();
 			%>
 
@@ -175,7 +189,7 @@
 
 		<hr id="line">
 		<!-- Footer -->
-		<footer>
+		<footer id="footer">
 		<div class="row">
 			<div class="col-lg-12">
 				<p>Copyright &copy; Sammyu Productions 2016</p>

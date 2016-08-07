@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="Model.*, java.util.*, db.*, java.sql.*, java.text.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <meta charset="utf-8">
@@ -96,21 +96,86 @@
 
 			<!-- /.row -->
 			<table width=100%>
-				<tr>
-					<td>thumbnail</td>
-					<td>Title</td>
-					<td>Price</td>
-				</tr>
-			</table>
+			<% ArrayList <cartSet> cartList = (ArrayList <cartSet>) session.getAttribute("cart");
+			   
+				   int cartSize = cartList.size();
+				   if (cartList != null && cartSize > 0 ) {
+				   		for (cartSet scart:cartList) {
+				   				int id = scart.getId();
+				  
+				   				NumberFormat formatter = new DecimalFormat("#0.00");
+				   
+				   				Connection conn = DBconnect.getConnection();
+				   
+				   				String sql = "Select Title, Image_location,Px,Quantity from game where game_ID = ?";
+					
+								PreparedStatement pt = conn.prepareStatement(sql);
+								pt.setInt(1, scart.getId());
 
-			<div class="text-right">
-				<a class="btn btn-success" href="">Purchase</a>
-			</div>
+								ResultSet rs = pt.executeQuery();
+								
+								if(rs.next()){
+									String tt = rs.getString("Title");
+									double price = rs.getDouble("Px");
+									String img = rs.getString("Image_location");
+									int dbquantity = rs.getInt("Quantity");
+			%>
+			
+			<tr>
+				<td><img class="img-responsive" src=<%=img%> alt="" width="200" height="280"> </td>
+				<td><%=tt %></td>
+				<td>
+					<form action="cartControl" method="post">
+  						<input type="number" name="quantity" min='1' max=<%=dbquantity %> value=<%=scart.getQuantity() %>>
+				</td>
+				<td>
+				<% if(scart.getQuantity()> 1){
+					price = scart.getQuantity()*price;
+				}
+				%>
+				$<%=formatter.format(price) %>
+				</td>
+				<td>
+						<input type='hidden' name='index' value=<%=cartList.indexOf(scart) %> />
+						<input type='hidden' name='action' value='update' />
+						<button class="btn btn-success"> Update </button>
+					</form>
+				</td>
+				<td>
+					<form action="cartControl" method="post">
+						<input type='hidden' name='index' value=<%=cartList.indexOf(scart) %> />
+						<input type='hidden' name='action' value='delete' />
+						<button class="btn btn-success"> Remove </button>
+					</form>
+				</td>
+			</tr>
+		
+				<% 
+								}
+								conn.close();
+						}
+					
+				%>	
+		</table>
+		<div class="text-right">
+			<form action="cartControl" method="post">
+				<input type='hidden' name='action' value='checkout' />
+				<button class="btn btn-success"> Checkout </button>
+			</form>
+		</div>
+		
+		<%
+				   } else { %>
+					Sorry, there is nothing in your cart. Let us browse for games!
 
-			<!-- Projects Row -->
+					<div class="text-right">
+						<a class="btn btn-success" href="mainPage.jsp">Browse</a>
+					</div>
+					<% } %>
 
-
-
+		<!-- Projects Row -->
+		
+		<div class="row">
 
 
 			<hr id="line">
