@@ -90,39 +90,40 @@
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Admin Tools</h1>
+				<h1 class="page-header">Add a new game</h1>
 			</div>
 		</div>
 		<!-- /.row -->
 
-		
+		<form action="processGame.jsp" method="post">
+First Name: <input type="text" name="firstName" value="" size=15 maxlength=20>
+<br>
+Last Name: <input type="text" name="lastName" value="" size=15 maxlength=20>
+<br>
+Email: <input type="text" name="email" value="" size=25  maxlength=125>
+<br>
+Mailing Address: <input type="text" name="mailaddr" value="" size=12  maxlength=125>
+<br>
+Contact Number: <input type="number" name="contactno" size=8 value=""  maxlength=8>
+<br>
+Password: <input type="password" name="password1" size=8 value="" maxlength=16>
+<br>
+Confirm Your Password: <input type="password" name="password2" size=8 value="" maxlength=16>
+<br>
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
+
+</form>
 
 		<!-- Projects Row -->
 
 		
 
 		<div class="row">
-			<div class="col-lg-12">
-				<p><a href="addGame.jsp"><font color="black">Add a game</font></a><br>
-				<a href="updateGame.jsp"><font color="black">Update game</font></a><br>
-				<a href="deleteGame.jsp"><font color="black">Delete a game</font></a><br>
-				<a href="gameSummary.jsp"><font color="black">Display Game Summary</font></a>
-				</p>
-			</div>
-			</div>
+			
 
-			Sammy, when you see this, pls do read it and delete once you aare done. I never touch the admin tools at all. So if there are any bugs here,
-			I need you to solve it. I suggest that when we update the games, dont ask for game id. show them the page with all the games as options
-			so that the admin a=can just click on a game and id of game will be passed over and update the game. Same for deletion 
-			<br><br>
-			I thinkk need to do the genre thing as well since we missed that out.
-			<br><br>
-			sammy, userid fr admin changed
-			<br>
-			id: admin <br>
-			pass: root
-			<br><br>
-			we need a logout button too. thks
+			
+		
 		
 
 		<hr id="line">
@@ -136,7 +137,6 @@
 		</footer>
 
 	</div>
-	
 	<!-- /.container -->
 
 	<!-- jQuery -->
