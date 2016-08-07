@@ -79,11 +79,14 @@
 							class="glyphicon glyphicon-shopping-cart"></span>Cart</a>
 							
 							<%
- 								if (session.getAttribute("login-status") == "YES") { %>
- 							  	<span class="glyphicon glyphicon-chevron-down"></span> 
- 								<% } else { %>
- 								 <a href="login2.html">Login 
- 								<% } %>
+ 									if(session.getAttribute("login-status") != null){
+							%>
+									<a href="logout.jsp">Logout</a>
+							<%			
+ 									 } else {
+ 							%>
+ 								 <a href="login2.html"> Login 
+ 							<% } %>
  						</a>
 					</div>
 				</li>
@@ -115,7 +118,7 @@
 			<%
 				Connection conn = DBconnect.getConnection();
 
-				PreparedStatement pstmt = conn
+			    PreparedStatement pstmt = conn
 						.prepareStatement("SELECT Title, Px, Game_ID, Image_location, game_type FROM game where game_type = 'popular'");
 
 				ResultSet rs = pstmt.executeQuery();
@@ -182,7 +185,7 @@
 						$<%=px%></p> </a>
 			</div>
 			<%
-				}
+				} conn.close();
 			%>
 		</div>
 		<!-- /.row -->

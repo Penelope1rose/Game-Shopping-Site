@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*, db.*"%>
-<%@page import="java.util.*, javax.servlet.*, java.text.* "%>
+<%@page import="java.util.*, javax.servlet.*, java.text.*"%>
+ <%
+//user must login successfully to access this page
+ 	String user = (String) session.getAttribute("login-status");
+
+	if(user == null){
+		response.sendRedirect("login2.html");
+	} else {
+		
+%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -50,14 +59,15 @@
 						class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME</a></li>
 				<li id="options"><a href="#">GAMES BY GENRE</a>
 					<ul class="subnav">
-						<li><a href="searchGame.jsp?value=Action">Action</a></li>
-						<li><a href="searchGame.jsp?value=Adventure">Adventure</a></li>
-						<li><a href="searchGame.jsp?value=RPG">RPG</a></li>
-						<li><a href="searchGame.jsp?value=Free-to-Play">Free-to-Play</a></li>
-						<li><a href="searchGame.jsp?value=Indie">Indie</a></li>
-						<li><a href="searchGame.jsp?value=Strategy">Strategy</a></li>
-						<li><a href="searchGame.jsp?value=Shooter">Shooter</a></li>
-					</ul></li>
+						<li><a href="searchGame.jsp?search=Action">Action</a></li>
+						<li><a href="searchGame.jsp?search=Adventure">Adventure</a></li>
+						<li><a href="searchGame.jsp?search=RPG">RPG</a></li>
+						<li><a href="searchGame.jsp?search=Free-to-Play">Free-to-Play</a></li>
+						<li><a href="searchGame.jsp?search=Indie">Indie</a></li>
+						<li><a href="searchGame.jsp?search=Strategy">Strategy</a></li>
+						<li><a href="searchGame.jsp?search=Shooter">Shooter</a></li>
+					</ul>
+				</li>
 				<li>
 					<form class="form-inline" role="form" action="searchGame.jsp">
 						<div class="form-group has-success has-feedback">
@@ -69,12 +79,24 @@
 						</div>
 					</form>
 				</li>
+				<li>
+<div class="topcorner">
+						<a href="shoppingCart.jsp"><span
+							class="glyphicon glyphicon-shopping-cart"></span>Cart</a> 
+							<%
+ 									if(user != null){
+							%>
+									<a href="logout.jsp">Logout</a>
+							<%			
+ 									 } else {
+ 							%>
+ 								 <a href="login2.html"> Login 
+ 							<% } %>
+ 						</a>
+					</div>
+				</li>
 
 			</ul>
-
-			<div class="topcorner">
-				<a href="login2.html">Login</a>
-			</div>
 
 		</div>
 		<!-- /.navbar-collapse -->
@@ -108,23 +130,7 @@
 					String pub = rs.getString("Publisher");
 					String preown = rs.getString("Preowning");
 					DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-					
 			%>
-
-			<!-- THINGS TO DO:
-					1. GENRE: ALL GENRES DISPLAY (CANT DO IT AFTER ALL..MAYBE SAM CAN SOLVE IT)
-					2. COMMENT SECTION 
-					
-					.s6centeredContent {
-    					position: absolute;
-    					top: 0;
-    					right: 3px;
-    					bottom: 0;
-    					left: 0;
-					}
-
-http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wix.com%2Fwebsite%2Ftemplates%2Fhtml%2Fall%2F2&bookName=&galleryDocIndex=2&category=all
-			-->
 
 			<div class="col-md-3">
 				<p class="lead">Details</p>
@@ -132,23 +138,25 @@ http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wi
 
 					<p class="list-group-item active">
 						Genre:
-						
-						<%=genre%> 
-						</p>
+
+						<%=genre%>
+					</p>
 					<p class="list-group-item active">
 						Publisher:
 						<%=pub%></p>
 					<p class="list-group-item active">
 						Developer:
 						<%=dev%></p>
-					<p class="list-group-item active">Release Date: <%=df.format(rs.getDate("Release_Date"))%></p>
+					<p class="list-group-item active">
+						Release Date:
+						<%=df.format(rs.getDate("Release_Date"))%></p>
 					<p class="list-group-item active">
 						Preowned:
 						<%=preown%></p>
 				</div>
 			</div>
-			
-					<%
+
+			<%
 				}
 
 				sql = "select Title, Summary, Description, Px, Image_Location from game where Game_ID = ?";
@@ -171,9 +179,16 @@ http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wi
 					<img class="img-responsive" src="<%=img%>" alt="" width="900"
 						height="300" />
 					<div class="caption-full">
-						<button id="text2" class="btn btn-success">Add to Cart</button>
+						<form action="cartControl" method="post">
+							<input type='hidden' name='hiddenID' value=<%=gsid %> />
+							<input type='hidden' name='hiddenQty' value=1 />
+							<input type='hidden' name='action' value='add' />
+							<button id="text2" class="btn btn-success"> Add to Cart </button>
+						</form>
+						
 						<h3 id="text">
-							$<%=px%></h3>
+							<% NumberFormat formatter = new DecimalFormat("#0.00");  %>
+							$<%=formatter.format(px)%></h3>
 
 						<h2>
 							<%=title%>
@@ -182,30 +197,6 @@ http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wi
 				</div>
 			</div>
 		</div>
-
-
-		<!--	<div class="caption-full">
-				<div class="ratings">
-					<p class="pull-right">3 reviews</p>
-					<p>
-
-					<form action="">
-						<input type="radio" name="rate" value="1"> 1
-  						<input type="radio" name="rate" value="2">2
-  						<input type="radio" name="rate" value="3">3
-  						<input type="radio" name="rate" value="4">4
-  						<input type="radio" name="rate" value="5">5
-					</form>
-							<!--  span class="glyphicon glyphicon-star"></span> <span
-								class="glyphicon glyphicon-star"></span> <span
-								class="glyphicon glyphicon-star"></span> <span
-								class="glyphicon glyphicon-star"></span> <span
-								class="glyphicon glyphicon-star-empty"></span> 4.0 stars 
-					</p>
-					
-					</div>
-					</div> -->
-
 
 		<div class="thumbnail">
 			<div class="caption-full">
@@ -285,8 +276,7 @@ http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wi
 
 	<div class="container">
 
-		<hr>
-
+		<hr id="line">
 		<!-- Footer -->
 		<footer>
 		<div class="row">
@@ -308,3 +298,6 @@ http://www.wix.com/website-template/view/html/1844?originUrl=http%3A%2F%2Fwww.wi
 
 </body>
 </html>
+<%
+	}
+%>

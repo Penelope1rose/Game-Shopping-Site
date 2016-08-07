@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="Model.*, java.util.*, db.*, java.sql.*, java.text.*" %>
+ <%
+//user must login successfully to access this page
+ 	String user = (String) session.getAttribute("login-status");
+ 	
+	if(user == null){
+		response.sendRedirect("login2.html");
+	} else {
+		
+%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,7 +48,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<p class="navbar-brand">SP GAMESTORE</p>
+			<p class="navbar-brand">SP Gamestore</p>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -72,8 +81,17 @@
 				<li>
 					<div class="topcorner">
 						<a href="shoppingCart.jsp"><span
-							class="glyphicon glyphicon-shopping-cart"></span>Cart</a> <a
-							href="login2.html">Login</a>
+							class="glyphicon glyphicon-shopping-cart"></span>Cart</a> 
+							<%
+ 									if(user != null){
+							%>
+									<a href="logout.jsp">Logout</a>
+							<%			
+ 									 } else {
+ 							%>
+ 								 <a href="login2.html"> Login 
+ 							<% } %>
+ 						</a>
 					</div>
 				</li>
 			</ul>
@@ -94,14 +112,16 @@
 				<h1 class="page-header">Your shopping Cart!</h1>
 			</div>
 
-			<!-- /.row -->
+			<!-- Project /.row -->
 			<table width=100%>
 			<% ArrayList <cartSet> cartList = (ArrayList <cartSet>) session.getAttribute("cart");
+			   if(cartList == null){
+				   cartList = new ArrayList <cartSet>();
+			   }
 			   
-				   int cartSize = cartList.size();
-				   if (cartList != null && cartSize > 0 ) {
+			   int cartSize = cartList.size();
+				   if (cartSize > 0) {
 				   		for (cartSet scart:cartList) {
-				   				int id = scart.getId();
 				  
 				   				NumberFormat formatter = new DecimalFormat("#0.00");
 				   
@@ -158,14 +178,15 @@
 				%>	
 		</table>
 		<div class="text-right">
-			<form action="cartControl" method="post">
+			<form action="checkout.jsp" method="post">
 				<input type='hidden' name='action' value='checkout' />
 				<button class="btn btn-success"> Checkout </button>
 			</form>
 		</div>
 		
 		<%
-				   } else { %>
+				   } else {  
+		%>
 					Sorry, there is nothing in your cart. Let us browse for games!
 
 					<div class="text-right">
@@ -198,3 +219,6 @@
 		<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
+<%
+	}
+%>

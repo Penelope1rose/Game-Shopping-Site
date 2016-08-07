@@ -9,28 +9,29 @@
 </head>
 <body>
 <%
-String inputuser=request.getParameter("username");
-String inputpassword=request.getParameter("passwd");
+String inputuser=request.getParameter("user");
+String inputpassword=request.getParameter("pass");
 
-    Connection conn =   DBconnect.getConnection();
-    PreparedStatement pstmt = conn.prepareStatement("SELECT * from users");
+    Connection conn = DBconnect.getConnection();
+    PreparedStatement pstmt = conn.prepareStatement("select * from users where userID = ? and pass=?");
+    pstmt.setString(1, inputuser);
+    pstmt.setString(2, inputpassword);
 	
 	ResultSet rs=pstmt.executeQuery();
 	
-	while(rs.next()){
+	if(rs.next()){
 		String dbusername=rs.getString("userID");
 		String dbpassword=rs.getString("pass");
-		if (inputuser.equals(dbusername)&&inputpassword.equals(dbpassword)) {
-			response.sendRedirect("adminPage.jsp");
-		}
-		else {
-			response.sendRedirect("login.html");
-		}
+		int status = rs.getInt("status");
+		
+		session.setAttribute("login-status", dbusername);
+		response.sendRedirect("mainPage.jsp");
+	} else {
+		response.sendRedirect("login2.html");
+	}
+	conn.close();
 	
 	
-	
-	
-}
 %>
 
 </body>
